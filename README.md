@@ -14,8 +14,8 @@ A terminal chat interface for **LuminoLexV1-9B** by VERBAREX — loaded in 4-bit
 ## Installation
 
 ```bash
-git clone https://github.com/VERBAREX/luminolex-learn
-cd luminolex-learn
+git clone https://github.com/VERBAREX-Bangladesh/LuminoLex-Learn
+cd LuminoLex-Learn
 pip install -r requirements.txt
 ```
 
@@ -53,7 +53,7 @@ python run.py
 ## Project Structure
 
 ```
-luminolex-learn/
+LuminoLex-Learn/
 ├── run.py                  # Entry point
 ├── requirements.txt
 └── luminolex/
