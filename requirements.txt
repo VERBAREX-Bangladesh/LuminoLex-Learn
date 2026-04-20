@@ -1,6 +1,0 @@
-torch>=2.1.0
-peft>=0.10.0
-accelerate>=0.28.0
-bitsandbytes>=0.46.1
-rich>=13.7.0
-packaging>=23.0
