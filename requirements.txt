@@ -1,0 +1,7 @@
+torch
+transformers
+peft
+accelerate
+bitsandbytes>=0.46.1
+rich
+packaging
