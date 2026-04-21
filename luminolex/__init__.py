@@ -1,1 +1,0 @@
-# LuminoLex Learn — by VERBAREX
