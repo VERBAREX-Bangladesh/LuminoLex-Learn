@@ -37,7 +37,7 @@
 ## Installation
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/luminolex-learn.git
+git clone https://github.com/VERBAREX-Bangladesh/LuminoLex-Learn.git
 cd luminolex-learn
 pip install -r requirements.txt
 ```
