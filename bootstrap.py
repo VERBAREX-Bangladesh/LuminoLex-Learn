@@ -6,11 +6,27 @@ _UPGRADED_FLAG = "__LUMINOLEX_UPGRADED__"
 
 def _check_base_supported() -> bool:
     try:
-        import transformers
-        from packaging.version import Version
-        # Check if transformers version is modern enough for newer model architectures
-        return Version(transformers.__version__) >= Version("4.39.0")
+        from peft import PeftConfig
+        from transformers import AutoConfig
+        import config
+        
+        # Dynamically test if the current transformers library supports the adapter's base model
+        peft_config = PeftConfig.from_pretrained(config.ADAPTER_REPO)
+        base_model_path = peft_config.base_model_name_or_path
+        
+        # If the architecture is unrecognized, this throws a ValueError
+        AutoConfig.from_pretrained(base_model_path, trust_remote_code=True)
+        return True
+    except ImportError:
+        # Core libraries are missing entirely, need to install
+        return False
+    except ValueError as e:
+        # "does not recognize this architecture" means we need bleeding-edge transformers
+        if "recognize this architecture" in str(e):
+            return False
+        return True
     except Exception:
+        # Any other failure, assume we need to try an upgrade
         return False
 
 def ensure_transformers():
@@ -25,8 +41,8 @@ def ensure_transformers():
         print("     Then:  Runtime → Restart session  →  re-run this cell.\n")
         sys.exit(1)
 
-    print("\n  ⚡  Required model architectures not found in current transformers.")
-    print("     Upgrading from GitHub main branch (this takes ~30 s) …\n")
+    print("\n  ⚡  Required model architectures not found in current environment.")
+    print("     Upgrading libraries from GitHub (this takes ~30 s) …\n")
 
     cmds = [
         [sys.executable, "-m", "pip", "install", "-q", "--upgrade",
