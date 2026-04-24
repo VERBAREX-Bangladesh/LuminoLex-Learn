@@ -27,19 +27,16 @@ def show_history(history):
 
 def build_memory_block(learned_facts: list[str]) -> str:
     """
-    Feeds memory to the model while strictly forbidding it from narrating
-    the memory process or adopting the facts as its own identity.
+    Feeds memory to the model using a clean, declarative structure.
+    Smaller models digest simple data blocks much better than complex rules.
     """
-    facts_text = "\n".join(f"- Fact about the human user: {f}" for f in learned_facts)
+    facts_text = "\n".join(f"- {f}" for f in learned_facts)
     
     return (
         "\n\n"
-        "##########  USER MEMORY  ##########\n"
-        "The following facts are known about the human user you are speaking to.\n"
-        "CRITICAL RULES FOR USING THIS MEMORY:\n"
-        "1. NEVER adopt these facts as your own identity.\n"
-        "2. NEVER say phrases like 'According to your explicit statement', 'Based on my memory', 'My records show', or 'You mentioned'.\n"
-        "3. Use this knowledge completely naturally, as if you organically remember the person you are conversing with.\n\n"
-        + facts_text +
-        "\n\n##########  END OF USER MEMORY  ##########"
+        "=== USER PROFILE ===\n"
+        "The human you are talking to has shared the following facts about themselves:\n"
+        f"{facts_text}\n"
+        "====================\n"
+        "Incorporate this knowledge naturally into the conversation. Do not explicitly state that you are reading from a profile or memory."
     )
