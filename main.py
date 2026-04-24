@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 ╔══════════════════════════════════════════════╗
-║      LuminoLex Learn - Terminal Chat         ║
-║            Powered by VERBAREX               ║
+║       LuminoLex Learn - Terminal Chat        ║
+║             Powered by VERBAREX              ║
 ╚══════════════════════════════════════════════╝
 
 Run:  python main.py
@@ -12,7 +12,6 @@ Deps: pip install torch transformers peft accelerate rich
 import sys
 import time
 
-# Execute bootstrapper to ensure transformers is correctly installed before heavy imports
 import bootstrap
 bootstrap.ensure_transformers()
 
@@ -41,7 +40,7 @@ def main():
     ui.console.print(Rule(f"[bold {config.BRAND}] Chat Session Started [/]", style=config.BRAND_DIM))
     ui.console.print()
 
-    system_prompt = config.DEFAULT_SYSTEM
+    system_prompt  = config.DEFAULT_SYSTEM
     learned_facts: list[str] = []
     params = {
         "max_new_tokens":    2048,
