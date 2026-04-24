@@ -51,7 +51,7 @@ def print_help():
         ("/history",            "Print full conversation history"),
         ("/tokens",             "Show token usage stats for this session"),
         ("/system  <prompt>",   "Replace the system prompt on-the-fly"),
-        ("/temp   <0.1-2.0>",   "Change temperature (current default: 0.8)"),
+        ("/temp   <0.1-2.0>",   "Change temperature (current default: 0.5)"),
         ("/maxtok <int>",       "Change max_new_tokens (default: 2048)"),
         ("/learn  <fact>",      "Teach the model a fact about you — persists all session"),
         ("/learned",            "Show everything the model has learned about you"),
