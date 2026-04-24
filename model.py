@@ -12,7 +12,7 @@ def load_model():
     import warnings
     import torch
     from transformers import AutoModelForCausalLM, AutoTokenizer
-    from peft import PeftModel, PeftConfig
+    from peft import PeftModel
 
     warnings.filterwarnings("ignore", message=".*copying from a non-meta parameter.*")
     warnings.filterwarnings("ignore", message=".*torch_dtype.*deprecated.*")
@@ -51,12 +51,8 @@ def load_model():
 
     console.print()
 
-    with LoadingStep("Fetching base model configuration …"):
-        peft_config = PeftConfig.from_pretrained(config.ADAPTER_REPO)
-        base_model_path = peft_config.base_model_name_or_path
-
     with LoadingStep("Loading tokenizer …"):
-        tokenizer = AutoTokenizer.from_pretrained(base_model_path, trust_remote_code=True)
+        tokenizer = AutoTokenizer.from_pretrained(config.BASE_MODEL, trust_remote_code=True)
         if tokenizer.pad_token_id is None:
             tokenizer.pad_token_id = tokenizer.eos_token_id
 
@@ -69,7 +65,7 @@ def load_model():
             bnb_4bit_use_double_quant=True,
         )
         base_model = AutoModelForCausalLM.from_pretrained(
-            base_model_path,
+            config.BASE_MODEL,
             quantization_config=bnb_cfg,
             device_map="auto",
             max_memory={0: "13GiB", "cpu": "6GiB"},
