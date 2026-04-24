@@ -28,7 +28,12 @@ def show_history(history):
 def build_memory_block(learned_facts: list[str]) -> str:
     """
     Frame learned facts explicitly as facts *about the user*, not about the
-    model itself.
+    model itself.  The old prompt said "adopt them as absolute truth" with no
+    subject, which caused the model to absorb personal facts (e.g. "my name is
+    Mahin") as its OWN identity and echo them back in the first person.
+
+    This block also includes strong negative prompts to stop the AI from
+    stating that it's pulling information from "records" or "facts".
     """
     facts_text = "\n".join(f"{i+1}. {f}" for i, f in enumerate(learned_facts))
     return (
