@@ -22,13 +22,11 @@ def animate_banner():
     lines = config.BANNER_ART.strip("\n").split("\n")
     learn_lines = config.BANNER_LEARN.strip("\n").split("\n")
     colours = [config.BRAND, config.BRAND, "#C4B5FD", "#DDD6FE", "#EDE9FE", config.BRAND_DIM]
-    
     for i, line in enumerate(lines):
         colour = colours[i % len(colours)]
         console.print(f"[bold {colour}]{line}[/]")
         time.sleep(0.06)
     console.print()
-    
     for i, line in enumerate(learn_lines):
         colour = colours[i % len(colours)]
         console.print(f"[bold {colour}]{line}[/]")
@@ -104,12 +102,10 @@ def render_ai_bubble(text: str, turn: int, in_tok: int, out_tok: int, elapsed: f
         (" LuminoLex Learn ", f"bold {config.BRAND}"),
         (f" ·  turn {turn}  ·  {ts} ", config.TEXT_DIM),
     )
-
     wrapped = "\n".join(
         "\n".join(textwrap.wrap(line, width=90)) if line.strip() else ""
         for line in text.split("\n")
     )
-
     footer = Text.from_markup(stats)
     panel = Panel(
         Text.from_markup(escape(wrapped)),
