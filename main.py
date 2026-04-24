@@ -44,7 +44,7 @@ def main():
     learned_facts: list[str] = []
     params = {
         "max_new_tokens":    2048,
-        "temperature":       0.8,
+        "temperature":       0.5,
         "top_p":             0.9,
         "repetition_penalty":1.1,
     }
