@@ -52,7 +52,6 @@ def load_model():
     console.print()
 
     with LoadingStep("Fetching base model configuration …"):
-        # Dynamically determine the base model without hardcoding its name
         peft_config = PeftConfig.from_pretrained(config.ADAPTER_REPO)
         base_model_path = peft_config.base_model_name_or_path
 
@@ -140,7 +139,6 @@ def _run_inference(model, tokenizer, messages, params, result_box):
         generated_ids = outputs[0][input_length:]
         full_text = tokenizer.decode(generated_ids, skip_special_tokens=True)
 
-        # Strip any leaked thinking tags as a safety net
         text = re.sub(r"<think>.*?(?:</think>|$)", "", full_text, flags=re.DOTALL).strip()
 
         result_box["output"]  = text
