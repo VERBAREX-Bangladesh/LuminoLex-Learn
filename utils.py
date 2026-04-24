@@ -27,28 +27,19 @@ def show_history(history):
 
 def build_memory_block(learned_facts: list[str]) -> str:
     """
-    Frame learned facts explicitly as facts *about the user*, not about the
-    model itself.  The old prompt said "adopt them as absolute truth" with no
-    subject, which caused the model to absorb personal facts (e.g. "my name is
-    Mahin") as its OWN identity and echo them back in the first person.
-
-    This block also includes strong negative prompts to stop the AI from
-    stating that it's pulling information from "records" or "facts".
+    Prevents 'Pronoun Bleeding' by explicitly attributing the raw 
+    first-person text quotes to the user.
     """
-    facts_text = "\n".join(f"{i+1}. {f}" for i, f in enumerate(learned_facts))
+    # Wrap facts in quotes so "I" and "my" are clearly the user speaking
+    facts_text = "\n".join(f"- The user explicitly stated: \"{f}\"" for f in learned_facts)
+    
     return (
         "\n\n"
-        "##########  KNOWN FACTS ABOUT THE USER  ##########\n"
-        "The following facts describe the person you are talking to (the USER).\n"
-        "These are NOT facts about you (the AI). They are personal details about the human user.\n"
-        "CRITICAL: Use these facts naturally and seamlessly in conversation when relevant. "
-        "NEVER say things like:\n"
-        "- 'Based on my records...'\n"
-        "- 'According to the facts...'\n"
-        "- 'I see here that...'\n"
-        "- 'You mentioned earlier...'\n"
-        "Simply state the answer as if you natively and naturally remember the user. Treat this as organic memory.\n"
-        "Do NOT claim any of these facts as your own identity.\n\n"
+        "##########  USER CONTEXT  ##########\n"
+        "The following are statements made by the human user about themselves.\n"
+        "CRITICAL IDENTITY RULE: Do NOT adopt these statements as your own identity. "
+        "Any use of 'I', 'me', 'my', or 'mine' in the quotes below refers exclusively to the USER, not you.\n"
+        "Use this information to personalize your responses naturally.\n\n"
         + facts_text +
-        "\n\n##########  END OF USER FACTS  ##########"
+        "\n\n##########  END OF USER CONTEXT  ##########"
     )
