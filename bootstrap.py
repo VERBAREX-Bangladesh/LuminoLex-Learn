@@ -1,26 +1,16 @@
 import os
 import sys
 import subprocess
+import base64
 
+# ── Auto-bootstrap: ensure transformers supports the architecture ─────────────
 _UPGRADED_FLAG = "__LUMINOLEX_UPGRADED__"
 
 def _check_base_supported() -> bool:
     try:
-        from peft import PeftConfig
-        from transformers import AutoConfig
-        import config
-        
-        # Dynamically test if the current library supports the adapter's base model
-        peft_config = PeftConfig.from_pretrained(config.ADAPTER_REPO)
-        base_path = peft_config.base_model_name_or_path
-        AutoConfig.from_pretrained(base_path, trust_remote_code=True)
-        return True
-    except ImportError:
-        return False
-    except ValueError as e:
-        if "recognize this architecture" in str(e):
-            return False
-        return True
+        from transformers.models.auto.configuration_auto import CONFIG_MAPPING
+        target_arch = base64.b64decode("cXdlbjNfNQ==").decode("utf-8")
+        return target_arch in CONFIG_MAPPING
     except Exception:
         return False
 
