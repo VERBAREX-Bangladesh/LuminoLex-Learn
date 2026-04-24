@@ -27,19 +27,19 @@ def show_history(history):
 
 def build_memory_block(learned_facts: list[str]) -> str:
     """
-    Prevents 'Pronoun Bleeding' by explicitly attributing the raw 
-    first-person text quotes to the user.
+    Feeds memory to the model while strictly forbidding it from narrating
+    the memory process or adopting the facts as its own identity.
     """
-    # Wrap facts in quotes so "I" and "my" are clearly the user speaking
-    facts_text = "\n".join(f"- The user explicitly stated: \"{f}\"" for f in learned_facts)
+    facts_text = "\n".join(f"- Fact about the human user: {f}" for f in learned_facts)
     
     return (
         "\n\n"
-        "##########  USER CONTEXT  ##########\n"
-        "The following are statements made by the human user about themselves.\n"
-        "CRITICAL IDENTITY RULE: Do NOT adopt these statements as your own identity. "
-        "Any use of 'I', 'me', 'my', or 'mine' in the quotes below refers exclusively to the USER, not you.\n"
-        "Use this information to personalize your responses naturally.\n\n"
+        "##########  USER MEMORY  ##########\n"
+        "The following facts are known about the human user you are speaking to.\n"
+        "CRITICAL RULES FOR USING THIS MEMORY:\n"
+        "1. NEVER adopt these facts as your own identity.\n"
+        "2. NEVER say phrases like 'According to your explicit statement', 'Based on my memory', 'My records show', or 'You mentioned'.\n"
+        "3. Use this knowledge completely naturally, as if you organically remember the person you are conversing with.\n\n"
         + facts_text +
-        "\n\n##########  END OF USER CONTEXT  ##########"
+        "\n\n##########  END OF USER MEMORY  ##########"
     )
