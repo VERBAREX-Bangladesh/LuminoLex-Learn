@@ -1,3 +1,5 @@
+import base64
+
 # ── Colour Palette ─────────────────────────────────────────────────────────────
 BRAND      = "#A78BFA"
 BRAND_DIM  = "#6D28D9"
@@ -31,7 +33,8 @@ BANNER_LEARN = r"""
   ╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝
 """
 
-# Internal model identifiers
+# Internal model identifiers (Base64 encoded to hide names from source code)
+BASE_MODEL = base64.b64decode("UXdlbi9Rd2VuMy41LTlC").decode("utf-8")
 ADAPTER_REPO = "VERBAREX/LuminoLexV1-9B"
 
 DEFAULT_SYSTEM = (
