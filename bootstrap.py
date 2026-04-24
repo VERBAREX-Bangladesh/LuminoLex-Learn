@@ -10,23 +10,18 @@ def _check_base_supported() -> bool:
         from transformers import AutoConfig
         import config
         
-        # Dynamically test if the current transformers library supports the adapter's base model
+        # Dynamically test if the current library supports the adapter's base model
         peft_config = PeftConfig.from_pretrained(config.ADAPTER_REPO)
-        base_model_path = peft_config.base_model_name_or_path
-        
-        # If the architecture is unrecognized, this throws a ValueError
-        AutoConfig.from_pretrained(base_model_path, trust_remote_code=True)
+        base_path = peft_config.base_model_name_or_path
+        AutoConfig.from_pretrained(base_path, trust_remote_code=True)
         return True
     except ImportError:
-        # Core libraries are missing entirely, need to install
         return False
     except ValueError as e:
-        # "does not recognize this architecture" means we need bleeding-edge transformers
         if "recognize this architecture" in str(e):
             return False
         return True
     except Exception:
-        # Any other failure, assume we need to try an upgrade
         return False
 
 def ensure_transformers():
@@ -34,15 +29,15 @@ def ensure_transformers():
         return
 
     if os.environ.get(_UPGRADED_FLAG) == "1":
-        print("\n  ✖  transformers was upgraded but the version is still outdated.")
+        print("\n  ✖  transformers was upgraded but the model architecture is still not recognised.")
         print("     This usually means Colab cached the old version.")
         print("\n  ➜  Please run this ONE cell in Colab, then re-run the script:\n")
         print("     !pip install -q git+https://github.com/huggingface/transformers.git")
         print("     Then:  Runtime → Restart session  →  re-run this cell.\n")
         sys.exit(1)
 
-    print("\n  ⚡  Required model architectures not found in current environment.")
-    print("     Upgrading libraries from GitHub (this takes ~30 s) …\n")
+    print("\n  ⚡  Model architecture not found in current transformers.")
+    print("     Upgrading from GitHub main branch (this takes ~30 s) …\n")
 
     cmds = [
         [sys.executable, "-m", "pip", "install", "-q", "--upgrade",
